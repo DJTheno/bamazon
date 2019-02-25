@@ -44,7 +44,7 @@ function start() {
         choices: function () {
           var choiceArray = [];
           for (var i = 0; i < res.length; i++) {
-            choiceArray.push(res[i].id);
+            choiceArray.push(res[i].id.toString());
           }
           return choiceArray;
         },
@@ -66,13 +66,13 @@ function start() {
           }
         }
         //determine if there is enough in stock
-        if (chosenItem.Stock_Quantity > parseInt(answer)) {
+        if (chosenItem.Stock_Quantity <= parseInt(answer.quantity)) {
           // bid was high enough, so update db, let the user know, and start over
           connection.query(
-            "UPDATE auctions SET ? WHERE ?",
+            "UPDATE products SET ? WHERE ?",
             [
               {
-                Stock_Quantity: answer
+                Stock_Quantity: answer.quantity
               },
               {
                 id: chosenItem.id
