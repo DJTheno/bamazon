@@ -58,42 +58,53 @@ function start() {
     ])
 
       .then(function (answer) {
-        // get the information of the chosen item
-        var chosenItem;
-        for (var i = 0; i < res.length; i++) {
-          if (res[i].item_name === answer.choice) {
-            chosenItem = res[i];
-          }
-        }
-        //determine if there is enough in stock
-        if (chosenItem.Stock_Quantity <= parseInt(answer.quantity)) {
-          // bid was high enough, so update db, let the user know, and start over
-          connection.query(
-            "UPDATE products SET ? WHERE ?",
-            [
-              {
-                Stock_Quantity: answer.quantity
-              },
-              {
-                id: chosenItem.id
-              }
-            ],
-            function (error) {
-              if (error) throw err;
-              console.log("your order has been placed");
-              start();
-            }
-          );
-        }
-        else {
-          // bid wasn't high enough, so apologize and start over
-          console.log("Not enough in stock, please try a lower ammount");
-          start();
-        }
-      });
-   
+        connection.query('SELECT * FROM products', function (err, res) {
 
-    
-    }
-  )}
+          // get the information of the chosen item
+          var chosenItem;
+          console.log(answer.id);
+          console.log(answer.quantity);
+
+          console.log(res[0].Product_name);
+          console.log(res[0].Stock_Quantity);
+          console.log(res.length);
+
+          for (var i = 0; i < res.length; i++) {
+            if (res[i].id === parseInt(answer.id)) {
+              console.log(res[i]);
+              chosenItem = res[i];
+            }
+          }
+
+          console.log(chosenItem);
+
+          //determine if there is enough in stock
+          if (chosenItem.Stock_Quantity >= parseInt(answer.quantity)) {
+            // bid was high enough, so update db, let the user know, and start over
+            connection.query(
+              "UPDATE products SET ? WHERE ?",
+              [
+                {
+                  Stock_Quantity: chosenItem.Stock_Quantity - answer.quantity
+                },
+              ],
+              function (error) {
+                if (error) throw err;
+                console.log("your order has been placed");
+                start();
+              }
+            );
+          }
+          else {
+            // bid wasn't high enough, so apologize and start over
+            console.log("Not enough in stock, please try a lower ammount");
+            start();
+          }
+        });
+
+      });
+
+  }
+  )
+}
 
