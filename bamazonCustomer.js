@@ -75,9 +75,9 @@ function start() {
               chosenItem = res[i];
             }
           }
-
+          
           console.log(chosenItem);
-
+          var choice = res.Stock_Quantity - answer.quantity;
           //determine if there is enough in stock
           if (chosenItem.Stock_Quantity >= parseInt(answer.quantity)) {
             // bid was high enough, so update db, let the user know, and start over
@@ -85,7 +85,7 @@ function start() {
               "UPDATE products SET ? WHERE ?",
               [
                 {
-                  Stock_Quantity: chosenItem.Stock_Quantity - answer.quantity
+                  Stock_Quantity:choice
                 },
               ],
               function (error) {
