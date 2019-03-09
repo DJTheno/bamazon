@@ -1,13 +1,13 @@
 Bamazon App
 ==============
 ### video
-this is a video walk through of how the app works
+this is a video walk through of how the app works:
 ![alt text](assets\photots\bam3.gif)
 ===============================================================
-debugged more
+debugged more:
 ![alt text](assets\photots\bam6.gif)
 ===============================================================
-### Screen Shots
+ Screen Shots:
 ![alt text](assets\bamaclip.PNG)
 ===============================================================
 ![alt text](assets\photots\Capture6.PNG)
